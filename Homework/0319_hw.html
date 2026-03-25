@@ -21,11 +21,11 @@
 
         const items = ["하나", "둘", "셋"];
 
-        items.forEach(text => {
-            const liTag = document.createElement('li'); 
+        for (const text of items) {
+            const liTag = document.createElement('li');
             liTag.textContent = text;
             ulTag.appendChild(liTag);
-        });
+        };
 
         document.body.appendChild(ulTag);
 
