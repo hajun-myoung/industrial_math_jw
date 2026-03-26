@@ -21,7 +21,7 @@ console.log(person?.contact?.phone);
 // b) undefined : code가 정의되지 않음
 // c) undefined : user.password가 존재하지않음
 // d) TypeError : ?.으로 접근하지 않아 에러발생
-// e) undefined : person이 존재하지 않음
+// e) Error : person이 존재하지 않음, 처음 객체가 잘못되면 undefined가 아닌 error로 나옴
 // ?.은 해당 참조가 유효한지 명시적으로 확인하지 않고도 접근할 수 있게 해주는 연산자
 
 // (2)
@@ -40,7 +40,7 @@ for (const elm of arr) {
 /**
 * in 실행결과: arr[0] = 1, arr[1] = 2, arr[2] = 3, arr[10] = 10, arr[lucky] = guy!
 * in을 사용하면 직접 추가한 lucky까지 포함하여 출력하고, 가운데 3~9까지 비어있는 인덱스는 무시
-* of 실행결과: 1, 2, 3, undefined (7번) 10
+* of 실행결과: 1, 2, 3, undefined (7번), 10
 * of 는 값에 집중하기 때문에 lucky는 출력하지 않음, 3~9 undefined도 출력
 */
 

@@ -27,6 +27,12 @@
             ulTag.appendChild(liTag);
         };
 
+        for (let index = 0; index < 100; index++) {
+            const li = document.createElement('li');
+            li.textContent = index + 1;
+            ulTag.appendChild(li);
+        }
+
         document.body.appendChild(ulTag);
 
         //ul: 순서없는 목록, ol: 순서있는 목록 (항목 앞에 숫자가 자동으로 붙음), li: 리스트의 개별항목 표시 (ul이나 ol안에 있어야함.)

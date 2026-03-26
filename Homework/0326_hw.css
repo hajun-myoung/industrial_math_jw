@@ -1,0 +1,14 @@
+/* 3. */
+.external-box {
+    color: blue;
+    border: 1px solid navy;
+    padding: 1rem 2rem;
+}
+/* 5. */
+.box-example {
+    border: 5px solid navy;
+    background-color: lightblue;
+    display: block;
+    margin: 20px;
+    padding: 20px;
+}

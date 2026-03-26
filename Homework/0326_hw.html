@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compmath assignment</title>
+
+    <style>
+        .internal-box {
+            color: peru;
+            border: 3px solid chartreuse;
+            background-color: beige;
+            margin:  1rem;
+        }
+        .display-block { display: block; background-color: lightgray; margin: 5px; }
+        .display-inline { display: inline; border: 1px solid red; }
+
+    </style>
+
+    <link rel="stylesheet" href="0326_hw.css">
+</head>
+<body>
+    <!-- 1. 
+     1) >는 바로 한단계 아래에 있는 자식 요소를 선택
+     2) space는 특정 요소 안에 포함된 모든 하위 요소를 선택
+     3) +는 같은 부모를 둔 형제들 중 특정 요소 바로 다음에 오는 딱 하나의 요소만 선택
+     4) ~는 특정 요소 뒤에 오는 모든 형제 요소를 한번에 선택
+     -->
+    <div style="color: red; font-size: xx-large;">
+        1) 인라인 스타일: 태그 안에 직접 부여
+    </div>
+    <div class="internal-box">
+        2) 내부 스타일: head 부분의 style 태그를 통해 클래스 적용
+    </div>
+    <div class="external-box">
+        3) 외부 스타일: 외부  css 파일에서 불러온 스타일
+    </div>
+
+    <div class="display-block"></div>
+    <div class="display-inline"></div>
+    <div class="display-inline"></div>
+    <!-- 4. CSS display 속성의 종류로는 block, inline, inline-block, flex, grid, none등이 있다.
+     block: 새로운 줄에서 시작, 부모 요소의 너비 100%
+     inline: 콘텐츠 크기만큼만 공간을 차지, 줄바꿈 X
+     inline-box: 줄바꿈 X, block처럼 크기와 마진 설정 가능
+     flex: 요소를 유연한 박스 컨테이너로 만들어 내부 자식 요소 간편하게 정렬
+     grid: 요소를 격자 컨테이너로 설정하려 2차원 레이아웃 생성
+     none: 요소를 화면에서 숨기며 공간도 차지하지 않음 -->
+    
+     <!-- 5. padding은 요소 테두리 안쪽의 여백으로 콘텐츠와 테두리 사이 공간을,
+      margin은 테두리 바깥쪽의 여백으로 요소와 다른 요소 사이의 간격 조절 -->
+
+    <div class="box-example" style="margin: 20px; padding: 20px;">
+    </div>
+</body>
+</html>
