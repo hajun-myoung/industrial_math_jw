@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <html>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>로그인</title>
+    </head>
+    <title>환영합니다</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family: 'Apple SD Gothic Neo', sans-serif;
+      }
+      .container {
+        background-color: white;
+        padding: 50px 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        width: 350px;
+        text-align: center;
+      }
+      h2 {
+        margin-bottom: 10px;
+        color: #333;
+      }
+      p {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 30px;
+      }
+      .logout-btn {
+        width: 150px;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        background: #ff5e4d;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .logout-btn:hover {
+        background: #e04a3a;
+      }
+    </style>
+    <body>
+      <div class="container">
+        <h2>환영합니다!</h2>
+        <p>로그인에 성공하였습니다.</p>
+
+        <button class="logout-btn" onclick="location.href = 'login.html'">로그아웃</button>
+      </div>
+    </body>
+  </html>
+</html>
