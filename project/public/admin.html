@@ -3,9 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="index.css" />
     <title>관리자 페이지</title>
   </head>
   <body>
     <h1>여기는 관리자 페이지입니다.</h1>
+    <div class="menu-title">
+      <span> <i class="fas fa-utensils"></i>메뉴관리 </span>
+      <button class="add-menu-btn" id="addMenuBtn"><i class="fas fa-plus"></i>메뉴추가</button>
+    </div>
+    <div class="menu-list" id="menuList"></div>
+    <script type="module" src="admin.js"></script>
   </body>
 </html>

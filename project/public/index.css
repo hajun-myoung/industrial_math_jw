@@ -1,4 +1,82 @@
 .header {
   height: 3rem;
-  background-color: crimson;
+  background-color: beige;
+}
+
+.login-modal {
+  display: None;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  align-items: center;
+  justify-content: center;
+}
+
+.login-content {
+  background-image: grey;
+  padding: 30px;
+}
+
+.menu-title {
+  font-size: 1.3rem;
+  display: flex;
+  color: #2272eb;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.menu-title button {
+  border: none;
+  font-size: 1.3rem;
+  border-radius: 20px;
+  color: white;
+  background-color: #2272eb;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.menu-item-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.menu-name {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.edit-btn {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.menu-item-admin:last-child {
+  border-bottom: none;
 }
