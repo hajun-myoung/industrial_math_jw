@@ -163,7 +163,7 @@ function renderOrder() {
     </div>
   `;
 
-  checkoutBtn.addEventListener('click', (e) => {});
+  //checkoutBtn.addEventListener('click', (e) => {});
 
   orderList.innerHTML = html;
 }
