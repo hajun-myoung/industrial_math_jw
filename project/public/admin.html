@@ -6,20 +6,58 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      integrity="sha512-5wdPD6iNVrv/lHTZb0nodKhrnDdJK9/kg2XD1r9UqPoIcUbujc+IYdlyDErWNu69gVcygdxlVnzTWnetw=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="admin.css" />
     <title>관리자 페이지</title>
   </head>
   <body>
     <h1>여기는 관리자 페이지입니다.</h1>
     <div class="menu-title">
-      <span> <i class="fas fa-utensils"></i>메뉴관리 </span>
+      <span><i class="fas fa-utensils"></i>메뉴관리</span>
       <button class="add-menu-btn" id="addMenuBtn"><i class="fas fa-plus"></i>메뉴추가</button>
     </div>
+
     <div class="menu-list" id="menuList"></div>
+
+    <div id="menuModal" class="modal-overlay" style="display: none">
+      <div class="modal-content">
+        <h3 id="modalTitle">새 메뉴 추가</h3>
+
+        <div class="form-control">
+          <label for="modalMenuName">메뉴 이름</label>
+          <input type="text" id="modalMenuName" />
+        </div>
+
+        <div class="form-control">
+          <label for="modalMenuPrice">가격</label>
+          <input type="number" id="modalMenuPrice" step="100" min="0" />
+        </div>
+
+        <div class="form-control">
+          <label for="modalMenuCategory">카테고리</label>
+          <input
+            type="text"
+            id="modalMenuCategory"
+            list="categoryList"
+            placeholder="선택하거나 직접 입력"
+          />
+          <datalist id="categoryList">
+            <option value="coffee" label="커피"></option>
+            <option value="drink" label="음료/티"></option>
+            <option value="food" label="디저트/푸드"></option>
+          </datalist>
+        </div>
+
+        <div class="modal-buttons">
+          <button id="modalSubmitBtn">확인</button>
+          <button id="modalCancelBtn">취소</button>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="admin.js"></script>
   </body>
 </html>

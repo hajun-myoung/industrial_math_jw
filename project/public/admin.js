@@ -4,25 +4,59 @@ import { renderMenu } from './menuRender.js';
 const menuListContainer = document.getElementById('menuList');
 const addMenuBtn = document.getElementById('addMenuBtn');
 
+const menuModal = document.getElementById('menuModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalMenuName = document.getElementById('modalMenuName');
+const modalMenuPrice = document.getElementById('modalMenuPrice');
+const modalMenuCategory = document.getElementById('modalMenuCategory');
+const modalSubmitBtn = document.getElementById('modalSubmitBtn');
+const modalCancelBtn = document.getElementById('modalCancelBtn');
+
+let currentMenuList = [];
+
+function openMenuModal(title, defaultData = { name: '', price: '', category: '' }) {
+  return new Promise((resolve) => {
+    modalTitle.textContent = title;
+    modalMenuName.value = defaultData.name;
+    modalMenuPrice.value = defaultData.price;
+    modalMenuCategory.value = defaultData.category;
+    menuModal.style.display = 'flex';
+
+    modalSubmitBtn.onclick = () => {
+      const name = modalMenuName.value.trim();
+      const price = modalMenuPrice.value.trim();
+      const category = modalMenuCategory.value.trim();
+
+      if (!name || !price || !category) {
+        alert('모든 항목을 올바르게 입력해주세요!');
+        return;
+      }
+
+      menuModal.style.display = 'none';
+      resolve({ name, price, category });
+    };
+
+    modalCancelBtn.onclick = () => {
+      menuModal.style.display = 'none';
+      resolve(null);
+    };
+  });
+}
+
 async function init() {
   const menuData = await fetchMenuData();
+  currentMenuList = menuData;
   renderMenu(menuListContainer, menuData);
 }
 
 if (addMenuBtn) {
   addMenuBtn.addEventListener('click', async () => {
-    const newMenuName = prompt('추가할 메뉴 이름을 입력하세요:');
-    if (!newMenuName || newMenuName.trim() === '') return;
+    const inputData = await openMenuModal('새 메뉴 추가');
+    if (!inputData) return;
 
-    const newMenuPrice = prompt('추가할 메뉴의 가격을 입력하세요 (숫자만):');
-    if (!newMenuPrice || newMenuPrice.trim() === '') return;
+    const parsedPrice = parseInt(inputData.price, 10);
 
-    const newMenuCategory = prompt('메뉴의 카테고리를 입력하세요 (예: coffee, food, drink):');
-    if (!newMenuCategory || newMenuCategory.trim() === '') return;
-
-    const parsedPrice = parseInt(newMenuPrice, 10);
-
-    const success = await createMenuData(newMenuName, parsedPrice, newMenuCategory);
+    const success = await createMenuData(inputData.name, parsedPrice, inputData.category);
     if (success) {
       init();
     }
@@ -38,21 +72,23 @@ if (menuListContainer) {
         if (success) init();
       }
     }
+
     if (event.target.classList.contains('edit-btn')) {
       const menuId = event.target.getAttribute('data-id');
 
-      const editName = prompt('변경할 메뉴 이름을 입력하세요:');
-      if (!editName || editName.trim() === '') return;
+      const targetMenu = currentMenuList.find((item) => String(item.id) === String(menuId));
 
-      const editPrice = prompt('변경할 메뉴의 가격을 입력하세요 (숫자만):');
-      if (!editPrice || editPrice.trim() === '') return;
+      const inputData = await openMenuModal('메뉴 정보 수정', {
+        name: targetMenu ? targetMenu.name : '',
+        price: targetMenu ? targetMenu.price : '',
+        category: targetMenu ? targetMenu.category : '',
+      });
 
-      const editCategory = prompt('변경할 메뉴의 카테고리를 입력하세요:');
-      if (!editCategory || editCategory.trim() === '') return;
+      if (!inputData) return;
 
-      const parsedPrice = parseInt(editPrice, 10);
+      const parsedPrice = parseInt(inputData.price, 10);
 
-      const success = await updateMenuData(menuId, editName, parsedPrice, editCategory);
+      const success = await updateMenuData(menuId, inputData.name, parsedPrice, inputData.category);
       if (success) {
         init();
       }

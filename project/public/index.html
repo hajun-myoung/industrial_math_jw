@@ -5,14 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kiosk</title>
     <link rel="stylesheet" href="index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
   </head>
   <body>
-    <header class="header"><button id="adminLoginBtn">관리자</button></header>
-    <h1>카페에 오신 걸 환영합니다.</h1>
-    <div>
-      <div class="menu-list" id="menuList"></div>
-      <div id="orderList"></div>
-    </div>
+    <header class="header">
+      <button id="adminLoginBtn">관리자</button>
+    </header>
+
+    <main class="container">
+      <h1>카페에 오신 걸 환영합니다.</h1>
+      <div class="kiosk-main-wrapper">
+        <div class="menu-list" id="menuList"></div>
+        <div class="order-sidebar" id="orderList"></div>
+      </div>
+    </main>
+
     <div id="loginModal" class="login-modal">
       <div class="login-content">
         <form id="loginForm">
