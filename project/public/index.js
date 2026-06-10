@@ -3,6 +3,11 @@ const loginModal = document.getElementById('loginModal');
 const loginForm = document.getElementById('loginForm');
 const menuList = document.getElementById('menuList');
 const orderList = document.getElementById('orderList');
+
+const paymentModal = document.getElementById('paymentModal');
+const finalCheckoutBtn = document.getElementById('finalCheckoutBtn');
+const paymentCancelBtn = document.getElementById('paymentCancelBtn');
+
 let menus = [];
 let currentOrder = [];
 
@@ -22,6 +27,27 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     if (e.target === loginModal) {
       loginModal.style.display = 'none';
     }
+    if (e.target === paymentModal) {
+      paymentModal.style.display = 'none';
+    }
+  });
+
+  paymentCancelBtn.addEventListener('click', () => {
+    paymentModal.style.display = 'none';
+  });
+
+  finalCheckoutBtn.addEventListener('click', () => {
+    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+    let methodName = '';
+
+    if (selectedMethod === 'cash') methodName = '현금';
+    else if (selectedMethod === 'card') methodName = '카드';
+    else if (selectedMethod === 'kakao') methodName = '카카오페이';
+
+    alert(`[${methodName}]으로 결제가 완료되었습니다!`);
+    currentOrder = [];
+    renderOrder();
+    paymentModal.style.display = 'none';
   });
 
   loginForm.addEventListener('submit', (e) => {
@@ -44,6 +70,29 @@ document.addEventListener('DOMContentLoaded', async (e) => {
 
   orderList.addEventListener('click', (e) => {
     const target = e.target;
+
+    if (target.id === 'checkoutBtn') {
+      if (currentOrder.length === 0) {
+        alert('주문할 메뉴가 없습니다!');
+        return;
+      }
+      paymentModal.style.display = 'flex';
+      return;
+    }
+
+    if (target.id === 'clearCartBtn') {
+      currentOrder = [];
+      renderOrder();
+      return;
+    }
+
+    if (target.closest('.delete-cart-btn')) {
+      const deleteName = target.closest('.delete-cart-btn').getAttribute('data-name');
+      currentOrder = currentOrder.filter((i) => i.name !== deleteName);
+      renderOrder();
+      return;
+    }
+
     const menuName = target.getAttribute('data-name');
     if (!menuName) return;
 
@@ -65,36 +114,43 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       }
       renderOrder();
     }
-
-    if (target.closest('.delete-cart-btn')) {
-      const deleteName = target.closest('.delete-cart-btn').getAttribute('data-name');
-      currentOrder = currentOrder.filter((i) => i.name !== deleteName);
-      renderOrder();
-    }
-
-    if (target.id === 'clearCartBtn') {
-      currentOrder = [];
-      renderOrder();
-    }
-
-    if (target.id === 'checkoutBtn') {
-      if (currentOrder.length === 0) {
-        alert('주문할 메뉴가 없습니다!');
-        return;
-      }
-      alert('주문이 완료되었습니다!');
-      currentOrder = [];
-      renderOrder();
-    }
   });
 });
 
 function renderMenus() {
+  menuList.innerHTML = '';
   menus.forEach((menu) => {
     const menuElm = document.createElement('div');
+    menuElm.className = 'menu-card-item';
+
+    let menuImgSrc = 'https://placehold.co/100x100?text=Coffee';
+
+    if (menu.name.includes('아메리카노')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2025/06/[110563]_20250626094353711.jpg';
+    } else if (menu.name.includes('딸기라떼')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2023/11/[9200000004951]_20231102101647442.jpg';
+    } else if (menu.name.includes('초코라떼')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2025/06/[110621]_20250626113323062.jpg';
+    } else if (menu.name.includes('딸기스무디')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2025/07/[9200000003276]_20250721084027663.jpg';
+    } else if (menu.name.includes('카페라떼')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2025/06/[110569]_20250626094801903.jpg';
+    } else if (menu.name.includes('녹차') || menu.name.includes('말차')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[400400000091]_20210415132229904.jpg';
+    }
+
     menuElm.innerHTML = `
-    <div class="menu-name">메뉴이름: ${menu.name}</div>
-    <div class="menu-price">가격: ${menu.price}</div>
+      <img src="${menuImgSrc}" alt="${menu.name}" class="menu-item-img" onerror="this.src='https://placehold.co/100x100?text=No+Image'">
+      <div class="menu-info-wrapper">
+        <div class="menu-name">${menu.name}</div>
+        <div class="menu-price">₩${menu.price.toLocaleString()}</div>
+      </div>
     `;
     menuElm.addEventListener('click', (e) => {
       addToOrder(menu);
@@ -102,7 +158,6 @@ function renderMenus() {
     menuList.appendChild(menuElm);
   });
 }
-
 function addToOrder(menu) {
   const existingItem = currentOrder.find((item) => item.name === menu.name);
   if (existingItem) {
@@ -162,8 +217,6 @@ function renderOrder() {
       <button id="checkoutBtn" class="action-btn checkout-btn" data-name="checkout">주문하기</button>
     </div>
   `;
-
-  //checkoutBtn.addEventListener('click', (e) => {});
 
   orderList.innerHTML = html;
 }
