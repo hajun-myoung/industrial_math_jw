@@ -1,43 +1,69 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!--페이지의 기본 정보, link가 있으면 미리 로딩-->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 메타태그: 페이지 정보(문자열 인코딩 방식) 페이지 사이즈 -->
     <title>Kiosk</title>
+    <!-- 탭에 보이는 제목 -->
     <link rel="stylesheet" href="index.css" />
+    <!-- index.css 파일 로딩 -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
     />
+    <!-- 폰트 로딩(awesome font) -->
   </head>
   <body>
+    <!-- 페이지 내용 -->
     <header class="header">
+      <!-- 페이지 최상단에 위치하는 영역 -->
       <button id="adminLoginBtn">관리자</button>
+      <!-- 관리자 페이지로 가는 버튼 -->
+      <!-- 기능은 JS에서 구현 -->
     </header>
 
     <main class="container">
+      <!-- 메인섹션 -->
       <h1>카페에 오신 걸 환영합니다.</h1>
+      <!-- h1: header1 태그로 제목 적음 -->
       <div class="kiosk-main-wrapper">
+        <!-- 메뉴화면과 사이드바 전체를 감싸는 wrapper(wrap: 감싼다) -->
+        <!-- 여기에 flex가 적용되어서 하위 요소들이 가로로 정렬 -->
         <div class="menu-list" id="menuList"></div>
+        <!-- 메뉴 화면 -->
         <div class="order-sidebar" id="orderList"></div>
+        <!-- 사이드바 주문목록 -->
+
+        <!-- 태그에 지정되지 않는 내용은 전부 JS에서 제어 -->
       </div>
     </main>
 
     <div id="loginModal" class="login-modal">
+      <!-- 로그인 모달(팝업창인데, 실제로 창을 띄우지는 X: 페이지 내에서 팝업같은 창을 띄우는 것) -->
+      <!-- 기본적으로는 display: none이어서, 보이지 않음 -->
       <div class="login-content">
+        <!-- 모달창 내부의 내용을 채워줌 -->
         <form id="loginForm">
+          <!-- 폼 만들고 시작: 로그인 만들어야 하니까 -->
           <div class="form-control">
+            <!-- div로 감싼 건: 스타일링(CSS) 쉽게 적용하려고 -->
+            <!-- 사용자명(username)을 받기 위한 섹션 -->
             <label for="username">사용자명</label>
             <input type="text" id="username" />
           </div>
           <div class="form-control">
+            <!-- 비밀번호를 받기 위한 섹션 -->
             <label for="password">비밀번호</label>
             <input type="password" id="password" />
           </div>
           <button type="submit">로그인</button>
+          <!-- 모달창 내부의 로그인 버튼 -->
         </form>
       </div>
     </div>
     <script src="index.js"></script>
+    <!-- 마지막에 index.js 스크립트 로딩 -->
   </body>
 </html>

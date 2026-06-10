@@ -58,6 +58,7 @@ h1 {
 
 .kiosk-main-wrapper {
   display: flex;
+  /* 이 flex가 아래 요소를 가로로 정렬하고 있음 */
   width: 100%;
   gap: 30px;
   align-items: flex-start;
@@ -241,7 +242,9 @@ h1 {
   top: 0;
   left: 0;
   width: 100vw;
+  /* viewport-width 사용자가 보는 가로 너비 비율 */
   height: 100vh;
+  /* viewport-height 사용자가 보는 세로 높이 비율 */
   background: rgba(0, 0, 0, 0.5);
   display: none;
   justify-content: center;
