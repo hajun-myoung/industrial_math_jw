@@ -63,6 +63,89 @@
         </form>
       </div>
     </div>
+    <div id="paymentModal" class="login-modal">
+      <div class="login-content" style="width: 400px">
+        <h2>💳 결제 수단 선택</h2>
+        <hr style="border: 0; height: 1px; background: #eee; margin-bottom: 20px" />
+
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px">
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              cursor: pointer;
+              padding: 10px;
+              border: 1px solid #ddd;
+              border-radius: 6px;
+            "
+          >
+            <input type="radio" name="paymentMethod" value="cash" checked /> 💵 현금 결제
+          </label>
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              cursor: pointer;
+              padding: 10px;
+              border: 1px solid #ddd;
+              border-radius: 6px;
+            "
+          >
+            <input type="radio" name="paymentMethod" value="card" /> 💳 카드 결제
+          </label>
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              cursor: pointer;
+              padding: 10px;
+              border: 1px solid #ddd;
+              border-radius: 6px;
+            "
+          >
+            <input type="radio" name="paymentMethod" value="kakao" /> 🟡 카카오페이
+          </label>
+        </div>
+
+        <div class="modal-buttons" style="display: flex; gap: 10px">
+          <button
+            id="finalCheckoutBtn"
+            style="
+              flex: 1;
+              height: 44px;
+              background-color: #4caf50;
+              color: white;
+              border: none;
+              border-radius: 6px;
+              font-size: 16px;
+              font-weight: bold;
+              cursor: pointer;
+            "
+          >
+            최종 결제하기
+          </button>
+          <button
+            id="paymentCancelBtn"
+            style="
+              flex: 1;
+              height: 44px;
+              background-color: #e0e0e0;
+              color: #333;
+              border: none;
+              border-radius: 6px;
+              font-size: 16px;
+              font-weight: bold;
+              cursor: pointer;
+            "
+          >
+            취소
+          </button>
+        </div>
+      </div>
+    </div>
     <script src="index.js"></script>
     <!-- 마지막에 index.js 스크립트 로딩 -->
   </body>

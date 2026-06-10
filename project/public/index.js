@@ -6,6 +6,10 @@ const orderList = document.getElementById('orderList'); // 주문 내역이 표�
 
 // 요소: HTML Element를 직역한 말. HTML 태그 -> DOM에 만들어진 Node를 의미한다
 
+const paymentModal = document.getElementById('paymentModal');
+const finalCheckoutBtn = document.getElementById('finalCheckoutBtn');
+const paymentCancelBtn = document.getElementById('paymentCancelBtn');
+
 let menus = []; // 메뉴를 저장하기 위한 빈 배열을 만든다
 let currentOrder = []; // 주문 내역을 저장하기 위한 빈 배열을 만든다
 
@@ -48,6 +52,27 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       // 클릭한 대상이 로그인 모달 배경인지 확인한다
       loginModal.style.display = 'none'; // 모달 배경을 클릭하면 로그인 모달을 숨긴다
     }
+    if (e.target === paymentModal) {
+      paymentModal.style.display = 'none';
+    }
+  });
+
+  paymentCancelBtn.addEventListener('click', () => {
+    paymentModal.style.display = 'none';
+  });
+
+  finalCheckoutBtn.addEventListener('click', () => {
+    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+    let methodName = '';
+
+    if (selectedMethod === 'cash') methodName = '현금';
+    else if (selectedMethod === 'card') methodName = '카드';
+    else if (selectedMethod === 'kakao') methodName = '카카오페이';
+
+    alert(`[${methodName}]으로 결제가 완료되었습니다!`);
+    currentOrder = [];
+    renderOrder();
+    paymentModal.style.display = 'none';
   });
 
   loginForm.addEventListener('submit', (e) => {
@@ -83,16 +108,32 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   });
 
   orderList.addEventListener('click', (e) => {
-    // e는 click 이벤트가 발생하면, 발생시킨 객체를 자동으로 가져감
-    // 정확히는...PointerEvent...인데...아몰랑
-    // 주문 내역 영역 안에서 발생한 클릭 이벤트를 감지한다
-    const target = e.target; // 실제로 클릭된 요소를 변수에 저장한다
-    // e.target은 이벤트를 발생시킨 HTML Element를 가지고 있음
-    const menuName = target.getAttribute('data-name'); // 클릭된 요소의 메뉴 이름 데이터를 읽어 온다
-    // 메뉴가 아닌 초기화, 주문하기 버튼도 clear, checkout을 "가지고는" 있음
-    if (!menuName) return; // 메뉴 이름 데이터가 없으면 이후 처리를 중단한다
-    // 빈 문자열은 거짓같은 값, 따라서 빈 문자열(data-name 속성이 X) -> false -> ! 붙여서 부정 -> true -> 조건문 실행
-    // 근데 그 조건문의 내용이 return -> 리턴(반환)이 되면 함수가 종료(더 아래에 있는 코드를 실행X)
+    const target = e.target;
+
+    if (target.id === 'checkoutBtn') {
+      if (currentOrder.length === 0) {
+        alert('주문할 메뉴가 없습니다!');
+        return;
+      }
+      paymentModal.style.display = 'flex';
+      return;
+    }
+
+    if (target.id === 'clearCartBtn') {
+      currentOrder = [];
+      renderOrder();
+      return;
+    }
+
+    if (target.closest('.delete-cart-btn')) {
+      const deleteName = target.closest('.delete-cart-btn').getAttribute('data-name');
+      currentOrder = currentOrder.filter((i) => i.name !== deleteName);
+      renderOrder();
+      return;
+    }
+
+    const menuName = target.getAttribute('data-name');
+    if (!menuName) return;
 
     // 사실 여기는 if (!menuName) 에 대해서 else 문 안에 있다고 봐도 됨
     // 왜? true 였으면 종료되었을 거니까, 여기까지 왔다는 건 else랑 같은거임
@@ -145,58 +186,43 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       }
       renderOrder(); // 변경된 장바구니 상태를 화면에 다시 그린다
     }
-
-    if (target.closest('.delete-cart-btn')) {
-      // 가장 가까운 delete-cart-btn 클래스를 가진 요소를 찾는거
-      // 타겟부터 시작해서, 만약 타겟이 이 클래스를 안 가지고 있으면 -> 부모 요소에서 찾고 -> 없으면 또 그 부모에서...
-      // 왜 이렇게? 휴지통 버튼을 눌렀는데, 우연히 휴지통 경계를 누르면, 버튼이 아니라 휴지통을 e.target으로 지정할수도...?
-      // 사실 button 안에 감싸진거라 그럴 일은 없는데, 혹시 몰라서 안전하게
-
-      // 클릭된 요소 또는 부모 요소가 삭제 버튼인지 확인한다
-      const deleteName = target.closest('.delete-cart-btn').getAttribute('data-name');
-      // 삭제할 메뉴 이름을 버튼에서 읽어 온다
-      currentOrder = currentOrder.filter((i) => i.name !== deleteName);
-      // 해당 메뉴를 장바구니에서 제거한다
-
-      // 삭제하는데 왜 "같지 않다"가 조건문에 들어가는가?
-      // 왜냐면 filter 메서드이기 때문
-      // 정확히는 "삭제"하는게 X, 삭제할 메뉴랑 "다른 애들"만 살려놓는거임
-      renderOrder(); // 변경된 장바구니 상태를 화면에 다시 그린다
-    }
-
-    if (target.id === 'clearCartBtn') {
-      // 클릭된 요소가 장바구니 초기화 버튼인지 확인한다
-      currentOrder = []; // 장바구니 목록을 빈 배열로 초기화한다
-      renderOrder(); // 빈 장바구니 상태를 화면에 다시 그린다
-    }
-
-    if (target.id === 'checkoutBtn') {
-      // 클릭된 요소가 주문하기 버튼인지 확인한다
-      if (currentOrder.length === 0) {
-        // 장바구니가 비어 있는지 확인한다
-        alert('주문할 메뉴가 없습니다!'); // 주문할 메뉴가 없다는 안내 메시지를 보여 준다
-        return; // 주문 처리를 중단한다
-      }
-
-      // 여기도 똑같이 위 조건문에 "안들어가야 올 수 있는 영역"
-      alert('주문이 완료되었습니다!'); // 주문 완료 안내 메시지를 보여 준다
-      currentOrder = []; // 주문 완료 후 장바구니를 비운다
-      renderOrder(); // 빈 장바구니 상태를 화면에 다시 그린다
-    }
   });
 });
 
 function renderMenus() {
-  // 메뉴 목록을 화면에 출력하는 함수이다
+  menuList.innerHTML = '';
   menus.forEach((menu) => {
-    // 전체 메뉴 배열을 하나씩 순회한다
-    const menuElm = document.createElement('div'); // 메뉴 하나를 담을 div 요소를 만든다
+    const menuElm = document.createElement('div');
+    menuElm.className = 'menu-card-item';
+
+    let menuImgSrc = 'https://placehold.co/100x100?text=Coffee';
+
+    if (menu.name.includes('아메리카노')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2025/06/[110563]_20250626094353711.jpg';
+    } else if (menu.name.includes('딸기라떼')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2023/11/[9200000004951]_20231102101647442.jpg';
+    } else if (menu.name.includes('초코라떼')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2025/06/[110621]_20250626113323062.jpg';
+    } else if (menu.name.includes('딸기스무디')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2025/07/[9200000003276]_20250721084027663.jpg';
+    } else if (menu.name.includes('카페라떼')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2025/06/[110569]_20250626094801903.jpg';
+    } else if (menu.name.includes('녹차') || menu.name.includes('말차')) {
+      menuImgSrc =
+        'https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[400400000091]_20210415132229904.jpg';
+    }
+
     menuElm.innerHTML = `
-      <!-- 메뉴 이름과 가격을 표시하는 HTML을 만든다. -->
-      <div class="menu-name">메뉴이름: ${menu.name}</div>
-      <!-- 메뉴 이름을 표시한다. -->
-      <div class="menu-price">가격: ${menu.price}</div>
-      <!-- 메뉴 가격을 표시한다. -->
+      <img src="${menuImgSrc}" alt="${menu.name}" class="menu-item-img" onerror="this.src='https://placehold.co/100x100?text=No+Image'">
+      <div class="menu-info-wrapper">
+        <div class="menu-name">${menu.name}</div>
+        <div class="menu-price">₩${menu.price.toLocaleString()}</div>
+      </div>
     `;
     menuElm.addEventListener('click', (e) => {
       // 메뉴 항목 클릭 이벤트를 감지한다.
@@ -205,7 +231,6 @@ function renderMenus() {
     menuList.appendChild(menuElm); // 완성된 메뉴 요소를 메뉴 목록 영역에 추가한다.
   });
 }
-
 function addToOrder(menu) {
   // 선택한 메뉴를 장바구니에 추가하는 함수이다.
   const existingItem = currentOrder.find((item) => item.name === menu.name); // 이미 장바구니에 같은 메뉴가 있는지 찾는다.
@@ -271,7 +296,5 @@ function renderOrder() {
     </div>
   `;
 
-  //checkoutBtn.addEventListener('click', (e) => {}); // 주문 버튼에 직접 이벤트를 붙이려던 흔적이며 현재는 사용하지 않는다.
-
-  orderList.innerHTML = html; // 완성된 주문 내역 HTML을 화면에 반영한다.
+  orderList.innerHTML = html;
 }
